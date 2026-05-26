@@ -46,26 +46,37 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="56dp"
                     android:layout_marginTop="20dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="@color/glass_dark"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="#1AFFFFFF">
+                    app:cardCornerRadius="28dp"
+                    app:cardElevation="8dp"
+                    app:cardBackgroundColor="@color/surface">
 
-                    <EditText
-                        android:id="@+id/etSearchCV"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@android:color/transparent"
-                        android:hint="Comida, dulces, útiles..."
-                        android:paddingHorizontal="16dp"
-                        android:textColor="@color/text_primary"
-                        android:textColorHint="@color/text_hint"
-                        android:textSize="14sp"
-                        android:maxLines="1"
-                        android:inputType="text" />
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="16dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@android:drawable/ic_menu_search"
+                            app:tint="@color/primary" />
+
+                        <EditText
+                            android:id="@+id/etSearchCV"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:hint="¿Qué buscas hoy?"
+                            android:paddingHorizontal="12dp"
+                            android:textColor="@color/text_primary"
+                            android:textColorHint="@color/text_hint"
+                            android:textSize="16sp"
+                            android:maxLines="1"
+                            android:inputType="text" />
+                    </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
                 <HorizontalScrollView
@@ -203,15 +214,16 @@
             android:textSize="14sp" />
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fabVender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="24dp"
-        android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="@color/primary"
-        app:tint="@color/white"
-        app:elevation="8dp" />
+        android:text="Vender"
+        android:textColor="@color/white"
+        app:icon="@android:drawable/ic_input_add"
+        app:iconTint="@color/white"
+        app:backgroundTint="@color/primary" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

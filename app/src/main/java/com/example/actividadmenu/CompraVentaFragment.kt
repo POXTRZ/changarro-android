@@ -62,7 +62,7 @@ class CompraVentaFragment : Fragment() {
         val etSearch = view.findViewById<EditText>(R.id.etSearchCV)
         val layoutEmpty = view.findViewById<LinearLayout>(R.id.layoutEmptyCV)
         val chipGroup = view.findViewById<ChipGroup>(R.id.chipGroupCategorias)
-        val fabVender = view.findViewById<FloatingActionButton>(R.id.fabVender)
+        val fabVender = view.findViewById<com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton>(R.id.fabVender)
 
         adapter = ProductoAdapter(emptyList(),
             onClick = { producto -> mostrarDialogoDetalle(producto) },

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Modern Blue Gradient Palette -->
+    <color name="primary">#007AFF</color>
+    <color name="primary_dark">#0056B3</color>
+    <color name="primary_container">#E5F1FF</color>
+    
+    <color name="secondary">#5856D6</color>
+    <color name="accent">#30B0C7</color>
+
+    <!-- Backgrounds -->
+    <color name="background">#010101</color>
+    <color name="surface">#1C1C1E</color>
+    <color name="surface_variant">#2C2C2E</color>
+
+    <!-- Text Colors - Forced White for better visibility -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#F2F2F7</color> <!-- Purest White-Grey -->
+    <color name="text_hint">#D1D1D6</color> <!-- Very light grey, almost white -->
+    <color name="text_on_primary">#FFFFFF</color>
+
+    <color name="badge_bg">#3A3A3C</color>
+    <color name="badge_text">#FFFFFF</color>
+
+    <color name="divider">#48484A</color>
+
+    <color name="glass_dark">#66FFFFFF</color>
+    <color name="glass_white">#40FFFFFF</color>
+
+    <!-- Gradient Colors -->
+    <color name="grad_start">#007AFF</color>
+    <color name="grad_center">#5856D6</color>
+    <color name="grad_end">#000000</color>
+
+    <!-- Calendar Specific -->
+    <color name="calendar_bg">#FFFFFF</color>
+</resources>

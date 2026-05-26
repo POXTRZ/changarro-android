@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Color cuando la pestaña está seleccionada - Azul -->
+    <item android:color="#1E88E5" android:state_checked="true" />
+    <!-- Color cuando la pestaña no está seleccionada -->
+    <item android:color="#8B949E" android:state_checked="false" />
+</selector>

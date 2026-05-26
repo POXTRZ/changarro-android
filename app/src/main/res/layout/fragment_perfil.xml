@@ -20,13 +20,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#000000"
+                android:background="@color/surface"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:paddingBottom="48dp"
                 android:paddingTop="20dp">
 
-                <!-- Botón visible y cliqueable -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSeedData"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -35,10 +34,10 @@
                     android:layout_gravity="end"
                     android:layout_marginEnd="8dp"
                     android:text="DEBUG: SEED"
-                    android:textColor="@color/text_hint"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     android:textSize="10sp"
                     app:icon="@android:drawable/stat_notify_sync"
-                    app:iconTint="@color/text_hint"
+                    app:iconTint="?attr/colorOnSurfaceVariant"
                     app:iconSize="16dp" />
 
                 <com.google.android.material.card.MaterialCardView
@@ -65,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cargando..."
-                    android:textColor="@color/text_primary"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:layout_marginTop="16dp" />
@@ -75,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="..."
-                    android:textColor="@color/text_secondary"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     android:textSize="14sp" />
 
                 <LinearLayout
@@ -131,14 +130,13 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- DASHBOARD ESTADÍSTICO -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Estadisticas de Hoy"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@color/text_primary"
+                android:textColor="?attr/colorOnSurface"
                 android:layout_marginBottom="16dp" />
 
             <GridLayout
@@ -162,7 +160,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="20dp">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ganado hoy" android:textSize="12sp" android:textColor="@color/text_secondary" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ganado hoy" android:textSize="12sp" android:textColor="?attr/colorOnSurfaceVariant" />
                         <TextView android:id="@+id/tvGanadoHoy" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$0.00" android:textSize="22sp" android:textStyle="bold" android:textColor="#4CAF50" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -180,7 +178,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="20dp">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mis ventas" android:textSize="12sp" android:textColor="@color/text_secondary" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mis ventas" android:textSize="12sp" android:textColor="?attr/colorOnSurfaceVariant" />
                         <TextView android:id="@+id/tvMisVentas" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textSize="22sp" android:textStyle="bold" android:textColor="#2196F3" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -215,7 +213,7 @@
                 android:text="Mis Favoritos ❤️"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@color/text_primary"
+                android:textColor="?attr/colorOnSurface"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="12dp"
                 android:visibility="gone" />
@@ -235,7 +233,7 @@
                 android:text="Ajustes de Cuenta"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@color/text_primary"
+                android:textColor="?attr/colorOnSurface"
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="16dp" />
 
@@ -275,12 +273,12 @@
                             android:layout_marginStart="16dp" 
                             android:text="..." 
                             android:textSize="15sp" 
-                            android:textColor="@color/text_primary" />
+                            android:textColor="?attr/colorOnSurface" />
                         <ImageView 
                             android:layout_width="20dp" 
                             android:layout_height="20dp" 
                             android:src="@android:drawable/ic_media_play" 
-                            app:tint="@color/white" />
+                            app:tint="?attr/colorOnSurfaceVariant" />
                     </LinearLayout>
 
                     <View 
@@ -311,12 +309,12 @@
                             android:layout_marginStart="16dp" 
                             android:text="Cambiar Contraseña" 
                             android:textSize="15sp" 
-                            android:textColor="@color/text_primary" />
+                            android:textColor="?attr/colorOnSurface" />
                         <ImageView 
                             android:layout_width="20dp" 
                             android:layout_height="20dp" 
                             android:src="@android:drawable/ic_media_play" 
-                            app:tint="@color/white" />
+                            app:tint="?attr/colorOnSurfaceVariant" />
                     </LinearLayout>
 
                     <View
@@ -348,7 +346,7 @@
                             android:layout_marginStart="16dp"
                             android:text="Modo Oscuro / Claro"
                             android:textSize="15sp"
-                            android:textColor="@color/text_primary" />
+                            android:textColor="?attr/colorOnSurface" />
                         <com.google.android.material.switchmaterial.SwitchMaterial
                             android:id="@+id/switchTheme"
                             android:layout_width="wrap_content"

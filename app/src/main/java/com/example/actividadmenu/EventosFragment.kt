@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.actividadmenu.viewmodel.EventosViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
+import android.widget.CalendarView
 
 class EventosFragment : Fragment() {
 
@@ -32,20 +33,19 @@ class EventosFragment : Fragment() {
         viewModel = ViewModelProvider(this)[EventosViewModel::class.java]
 
         val rvEventos = view.findViewById<RecyclerView>(R.id.rvEventos)
-        val calendarView = view.findViewById<android.widget.CalendarView>(R.id.calendarView)
+        val calendarView = view.findViewById<CalendarView>(R.id.calendarView)
         val fabAgregar = view.findViewById<FloatingActionButton>(R.id.fabAgregarEvento)
 
         adapter = EventoAdapter(emptyList())
         rvEventos.layoutManager = LinearLayoutManager(context)
         rvEventos.adapter = adapter
 
-        // Listener del Calendario
+        // TAREA 2: Filtrado por fecha al tocar el calendario
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            Toast.makeText(context, "Mostrando eventos del $dayOfMonth/${month + 1}/$year", Toast.LENGTH_SHORT).show()
-            // Aquí se filtraría la lista por fecha real en una app de producción
+            viewModel.filtrarPorFecha(dayOfMonth, month + 1, year)
+            Toast.makeText(context, "Eventos para el $dayOfMonth/${month + 1}/$year", Toast.LENGTH_SHORT).show()
         }
 
-        // Observar eventos
         viewModel.eventos.observe(viewLifecycleOwner) { lista ->
             adapter.updateLista(lista)
         }
@@ -69,7 +69,7 @@ class EventosFragment : Fragment() {
         val etTitulo = EditText(context).apply { hint = "Título" }
         val etDesc = EditText(context).apply { hint = "Descripción" }
         val etLugar = EditText(context).apply { hint = "Lugar" }
-        val etFecha = EditText(context).apply { hint = "Fecha (Ej: 25 Oct, 4:00 PM)" }
+        val etFecha = EditText(context).apply { hint = "Fecha (Ej: 25 Oct)" }
 
         layout.addView(etTitulo)
         layout.addView(etDesc)
@@ -86,12 +86,8 @@ class EventosFragment : Fragment() {
 
             if (titulo.isNotEmpty() && fecha.isNotEmpty()) {
                 viewModel.publicarEvento(titulo, desc, lugar, fecha, userId)
-                Toast.makeText(context, "Publicando...", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(context, "Título y Fecha obligatorios", Toast.LENGTH_SHORT).show()
             }
         }
-
         builder.setNegativeButton("Cancelar", null)
         builder.show()
     }

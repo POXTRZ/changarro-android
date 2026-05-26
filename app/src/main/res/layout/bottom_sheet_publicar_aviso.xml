@@ -20,24 +20,23 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:text="Compartir con la Comunidad"
-        android:textColor="@color/white"
+        android:textColor="@color/text_primary"
         android:textSize="22sp"
         android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilContenidoAviso"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="¿Qué quieres informar a la comunidad?"
-        app:boxBackgroundColor="@color/background"
         app:boxStrokeColor="@color/primary"
         app:counterEnabled="true"
         app:counterMaxLength="280"
         app:counterTextColor="@color/text_secondary"
         app:hintTextColor="@color/primary"
         app:placeholderText="Escribe aquí tu aviso..."
-        app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.MediumComponent">
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Custom.Medium">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etContenidoAviso"

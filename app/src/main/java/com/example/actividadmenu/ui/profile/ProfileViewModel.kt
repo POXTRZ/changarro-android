@@ -28,12 +28,32 @@ class ProfileViewModel : ViewModel() {
     private val _alertasStock = MutableLiveData<List<Producto>>()
     val alertasStock: LiveData<List<Producto>> get() = _alertasStock
 
+    private val _misFavoritos = MutableLiveData<List<Producto>>()
+    val misFavoritos: LiveData<List<Producto>> get() = _misFavoritos
+
+    private fun cargarFavoritos(ids: List<String>) {
+        if (ids.isEmpty()) {
+            _misFavoritos.value = emptyList()
+            return
+        }
+        // Firestore limit: 'in' query supports up to 10 ids.
+        // For a university app, this is fine for now.
+        db.collection("productos").whereIn("id", ids.take(10)).get()
+            .addOnSuccessListener { snapshot ->
+                val lista = snapshot.documents.mapNotNull { it.toObject(Producto::class.java) }
+                _misFavoritos.value = lista
+            }
+    }
+
     fun cargarDatosPerfil(userId: String) {
         // Cargar datos del usuario desde Firestore
         db.collection("usuarios").document(userId).get()
             .addOnSuccessListener { doc ->
                 val usuario = doc.toObject(Usuario::class.java)
-                usuario?.let { _perfilUsuario.value = it }
+                usuario?.let { 
+                    _perfilUsuario.value = it 
+                    cargarFavoritos(it.favoritos)
+                }
             }
         
         // Obtener estadísticas de ventas de hoy

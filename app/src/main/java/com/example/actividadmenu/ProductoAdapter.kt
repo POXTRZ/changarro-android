@@ -12,7 +12,9 @@ class ProductoAdapter(
     private var listaProductos: List<Producto>,
     private val onClick: (Producto) -> Unit,
     private val onLongClick: (Producto) -> Unit,
-    private val onFavoriteClick: ((Producto) -> Unit)? = null
+    private val onFavoriteClick: ((Producto) -> Unit)? = null,
+    private val onEliminarClick: ((Producto) -> Unit)? = null,
+    private var favoritosIds: Set<String> = emptySet()
 ) : RecyclerView.Adapter<ProductoAdapter.ProductoViewHolder>() {
 
     class ProductoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -23,6 +25,7 @@ class ProductoAdapter(
         val tvPrecio: TextView = view.findViewById(R.id.tvPrecioProducto)
         val tvStock: TextView = view.findViewById(R.id.tvStockProducto)
         val ivFavorite: ImageView = view.findViewById(R.id.ivFavorite)
+        val btnEliminar: android.widget.ImageButton = view.findViewById(R.id.btnEliminarProducto)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductoViewHolder {
@@ -38,6 +41,16 @@ class ProductoAdapter(
         holder.tvDescripcion.text = producto.descripcion
         holder.tvPrecio.text = "$${producto.precio}"
         holder.tvStock.text = "Stock: ${producto.stock}"
+
+        // Estado de favorito
+        val esFavorito = favoritosIds.contains(producto.id)
+        if (esFavorito) {
+            holder.ivFavorite.setImageResource(android.R.drawable.btn_star_big_on)
+            holder.ivFavorite.setColorFilter(holder.itemView.context.getColor(R.color.primary))
+        } else {
+            holder.ivFavorite.setImageResource(android.R.drawable.btn_star_big_off)
+            holder.ivFavorite.setColorFilter(holder.itemView.context.getColor(R.color.text_hint))
+        }
 
         // Cargar imagen con Glide
         if (producto.imagenUrl.isNotEmpty()) {
@@ -58,6 +71,15 @@ class ProductoAdapter(
             onFavoriteClick?.invoke(producto)
         }
 
+        // Mostrar eliminar si es el vendedor
+        val miId = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid
+        if (producto.vendedorId == miId) {
+            holder.btnEliminar.visibility = View.VISIBLE
+            holder.btnEliminar.setOnClickListener { onEliminarClick?.invoke(producto) }
+        } else {
+            holder.btnEliminar.visibility = View.GONE
+        }
+
         holder.itemView.setOnLongClickListener {
             onLongClick(producto)
             true
@@ -68,6 +90,11 @@ class ProductoAdapter(
 
     fun updateLista(nuevaLista: List<Producto>) {
         listaProductos = nuevaLista
+        notifyDataSetChanged()
+    }
+
+    fun updateFavoritos(nuevosFavoritos: Set<String>) {
+        favoritosIds = nuevosFavoritos
         notifyDataSetChanged()
     }
 }

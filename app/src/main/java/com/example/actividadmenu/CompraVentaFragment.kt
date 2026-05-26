@@ -30,6 +30,9 @@ class CompraVentaFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var viewModel: MarketplaceViewModel
     private lateinit var adapter: ProductoAdapter
+    private var miCarrera = ""
+    private var miSemestre = ""
+    private var miWhatsapp = ""
     
     private var listaTotal = listOf<Producto>()
     private var categoriaActual = "Todos"
@@ -45,6 +48,16 @@ class CompraVentaFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         viewModel = ViewModelProvider(this)[MarketplaceViewModel::class.java]
 
+        auth.currentUser?.let { user ->
+            com.google.firebase.firestore.FirebaseFirestore.getInstance()
+                .collection("usuarios").document(user.uid).get()
+                .addOnSuccessListener { doc ->
+                    miCarrera = doc.getString("carrera") ?: ""
+                    miSemestre = doc.getString("semestre") ?: ""
+                    miWhatsapp = doc.getString("whatsapp") ?: ""
+                }
+        }
+
         val rvProductos = view.findViewById<RecyclerView>(R.id.rvProductosCV)
         val etSearch = view.findViewById<EditText>(R.id.etSearchCV)
         val layoutEmpty = view.findViewById<LinearLayout>(R.id.layoutEmptyCV)
@@ -53,15 +66,37 @@ class CompraVentaFragment : Fragment() {
 
         adapter = ProductoAdapter(emptyList(),
             onClick = { producto -> mostrarDialogoDetalle(producto) },
-            onLongClick = { /* Opcional */ }
+            onLongClick = { /* Opcional */ },
+            onFavoriteClick = { producto ->
+                val user = auth.currentUser
+                if (user != null) {
+                    viewModel.toggleFavorito(user.uid, producto.id)
+                }
+            },
+            onEliminarClick = { producto ->
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Eliminar producto")
+                    .setMessage("¿Deseas quitar este producto del mercado?")
+                    .setPositiveButton("Eliminar") { _, _ -> viewModel.eliminarProducto(producto.id) }
+                    .setNegativeButton("Cancelar", null)
+                    .show()
+            }
         )
         rvProductos.layoutManager = LinearLayoutManager(context)
         rvProductos.adapter = adapter
+
+        // Sincronizar favoritos
+        auth.currentUser?.let { viewModel.syncFavoritos(it.uid) }
 
         // Observar productos del ViewModel
         viewModel.productosFiltrados.observe(viewLifecycleOwner) { productos ->
             adapter.updateLista(productos)
             layoutEmpty.visibility = if (productos.isEmpty()) View.VISIBLE else View.GONE
+        }
+
+        // Observar favoritos
+        viewModel.favoritosIds.observe(viewLifecycleOwner) { favoritos ->
+            adapter.updateFavoritos(favoritos)
         }
 
         // Observar errores o mensajes de estado
@@ -102,58 +137,25 @@ class CompraVentaFragment : Fragment() {
     }
 
     private fun mostrarDialogoPublicar() {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Publicar Producto")
-
-        val layout = LinearLayout(context)
-        layout.orientation = LinearLayout.VERTICAL
-        layout.setPadding(50, 40, 50, 10)
-
-        val etNombre = EditText(context).apply { hint = "Nombre del producto" }
-        val etPrecio = EditText(context).apply { 
-            hint = "Precio" 
-            inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
-        }
-        val etStock = EditText(context).apply { 
-            hint = "Stock inicial"
-            inputType = android.text.InputType.TYPE_CLASS_NUMBER
-        }
-        val etDesc = EditText(context).apply { hint = "Descripción (donde entregas...)" }
-        
-        val spCategoria = Spinner(context)
-        val categorias = arrayOf("Comida", "Dulces", "Apuntes", "Otros")
-        spCategoria.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, categorias)
-
-        layout.addView(etNombre)
-        layout.addView(etPrecio)
-        layout.addView(etStock)
-        layout.addView(etDesc)
-        layout.addView(spCategoria)
-        builder.setView(layout)
-
-        builder.setPositiveButton("Publicar") { _, _ ->
-            val nombre = etNombre.text.toString()
-            val precio = etPrecio.text.toString().toDoubleOrNull() ?: 0.0
-            val stock = etStock.text.toString().toIntOrNull() ?: 0
-            val desc = etDesc.text.toString()
-            val cat = spCategoria.selectedItem.toString()
+        val bottomSheet = PublicarProductoBottomSheet { nombre, precio, stock, desc, cat ->
             val user = auth.currentUser
-
-            if (nombre.isNotEmpty() && user != null) {
-                val userName = user.email?.substringBefore("@")?.replaceFirstChar { it.uppercase() } ?: "Estudiante"
-                viewModel.publicarNuevoProducto(nombre, precio, stock, desc, cat, user.uid, userName)
-            } else {
-                Toast.makeText(context, "El nombre es obligatorio", Toast.LENGTH_SHORT).show()
+            if (user != null) {
+                val userName = user.displayName ?: user.email?.substringBefore("@") ?: "Estudiante"
+                viewModel.publicarNuevoProducto(nombre, precio, stock, desc, cat, user.uid, userName, miCarrera, miSemestre, miWhatsapp)
             }
         }
-        builder.setNegativeButton("Cancelar", null)
-        builder.show()
+        bottomSheet.show(parentFragmentManager, "PublicarProductoBottomSheet")
     }
 
     private fun mostrarDialogoDetalle(producto: Producto) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(producto.nombre)
-        builder.setMessage("Vendedor: ${producto.vendedorNombre}\nPrecio: $${producto.precio}\nStock: ${producto.stock}\n\n${producto.descripcion}")
+        
+        val infoVendedor = StringBuilder("Vendedor: ${producto.vendedorNombre}")
+        if (producto.vendedorCarrera.isNotEmpty()) infoVendedor.append("\nCarrera: ${producto.vendedorCarrera}")
+        if (producto.vendedorSemestre.isNotEmpty()) infoVendedor.append("\nSemestre: ${producto.vendedorSemestre}")
+        
+        builder.setMessage("${infoVendedor}\nPrecio: $${producto.precio}\nStock: ${producto.stock}\n\n${producto.descripcion}")
         
         builder.setPositiveButton("Comprar/Apartar") { _, _ ->
             val user = auth.currentUser

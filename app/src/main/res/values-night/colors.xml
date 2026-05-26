@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+
+    <!-- Dark Theme Colors -->
+    <color name="primary">#0A84FF</color> <!-- System Blue Dark -->
+    <color name="primary_dark">#000000</color>
+    <color name="primary_container">#0040DD</color>
+
+    <color name="secondary">#5E5CE6</color>
+    <color name="accent">#64D2FF</color>
+
+    <color name="background">#000000</color>
+    <color name="surface">#1C1C1E</color>
+    <color name="surface_variant">#2C2C2E</color>
+
+    <!-- Grey text to white for maximum visibility in dark mode -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#FFFFFF</color>
+    <color name="text_hint">#EBEBF5</color>
+    <color name="text_on_primary">#FFFFFF</color>
+
+    <color name="badge_bg">#3A3A3C</color>
+    <color name="badge_text">#FFFFFF</color>
+
+    <color name="divider">#38383A</color>
+
+    <color name="glass_dark">#4DFFFFFF</color>
+    <color name="glass_white">#26FFFFFF</color>
+
+    <color name="grad_start">#0A84FF</color>
+    <color name="grad_center">#5E5CE6</color>
+    <color name="grad_end">#000000</color>
+</resources>

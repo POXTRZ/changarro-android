@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nombre Autor"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_primary"
                     android:textStyle="bold"
                     android:textSize="15sp" />
 
@@ -63,6 +63,25 @@
                     android:textColor="@color/text_secondary"
                     android:textSize="11sp" />
             </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/btnEliminarAviso"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_menu_delete"
+                app:tint="#FF5252"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/btnWhatsappAviso"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/stat_sys_phone_call"
+                app:tint="#4CAF50"
+                android:visibility="gone" />
         </LinearLayout>
 
         <TextView

@@ -16,9 +16,14 @@ class MarketplaceViewModel : ViewModel() {
 
     private val productRepo = ProductoRepository()
     private val transaccionRepo = TransaccionRepository()
+    private val usuarioRepo = com.example.actividadmenu.repository.UsuarioRepository()
 
     private val _listaCompleta = mutableListOf<Producto>()
     
+    // LiveData para los favoritos del usuario
+    private val _favoritosIds = MutableLiveData<Set<String>>(emptySet())
+    val favoritosIds: LiveData<Set<String>> get() = _favoritosIds
+
     // LiveData que la UI observa para mostrar los productos (ya filtrados)
     private val _productosFiltrados = MutableLiveData<List<Producto>>()
     val productosFiltrados: LiveData<List<Producto>> get() = _productosFiltrados
@@ -32,6 +37,25 @@ class MarketplaceViewModel : ViewModel() {
 
     init {
         cargarMercado()
+    }
+
+    fun syncFavoritos(userId: String) {
+        usuarioRepo.escucharUsuario(userId) { usuario ->
+            _favoritosIds.value = usuario.favoritos.toSet()
+        }
+    }
+
+    fun toggleFavorito(userId: String, productoId: String) {
+        val actual = _favoritosIds.value ?: emptySet()
+        val seraFavorito = !actual.contains(productoId)
+        usuarioRepo.toggleFavorito(userId, productoId, seraFavorito) {}
+    }
+
+    fun eliminarProducto(productoId: String) {
+        productRepo.eliminarProducto(productoId,
+            onSuccess = { _error.value = "Producto eliminado" },
+            onFailure = { _error.value = "Error al eliminar: ${it.message}" }
+        )
     }
 
     /**
@@ -122,7 +146,10 @@ class MarketplaceViewModel : ViewModel() {
         descripcion: String,
         categoria: String,
         vendedorId: String,
-        vendedorNombre: String
+        vendedorNombre: String,
+        vendedorCarrera: String = "",
+        vendedorSemestre: String = "",
+        vendedorWhatsapp: String = ""
     ) {
         val nuevoProducto = Producto(
             nombre = nombre,
@@ -131,7 +158,10 @@ class MarketplaceViewModel : ViewModel() {
             descripcion = descripcion,
             categoria = categoria,
             vendedorId = vendedorId,
-            vendedorNombre = vendedorNombre
+            vendedorNombre = vendedorNombre,
+            vendedorCarrera = vendedorCarrera,
+            vendedorSemestre = vendedorSemestre,
+            vendedorWhatsapp = vendedorWhatsapp
         )
 
         productRepo.agregarProducto(

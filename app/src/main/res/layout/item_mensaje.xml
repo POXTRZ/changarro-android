@@ -19,15 +19,31 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0">
 
-        <TextView
-            android:id="@+id/tvMensajeIzquierdo"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="260dp"
-            android:padding="12dp"
-            android:text="Mensaje recibido"
-            android:textColor="@color/text_primary"
-            android:textSize="14sp" />
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tvMensajeIzquierdo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="260dp"
+                android:text="Mensaje recibido"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvHoraIzquierda"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="2dp"
+                android:text="12:00"
+                android:textColor="@color/text_hint"
+                android:textSize="10sp" />
+        </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <!-- Burbuja Derecha (Enviado) -->
@@ -44,15 +60,32 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="1">
 
-        <TextView
-            android:id="@+id/tvMensajeDerecho"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="260dp"
-            android:padding="12dp"
-            android:text="Mensaje enviado"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tvMensajeDerecho"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="260dp"
+                android:text="Mensaje enviado"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvHoraDerecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="2dp"
+                android:text="12:01"
+                android:textColor="@color/white"
+                android:alpha="0.7"
+                android:textSize="10sp" />
+        </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

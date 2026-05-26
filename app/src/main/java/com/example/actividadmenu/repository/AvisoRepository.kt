@@ -62,4 +62,10 @@ class AvisoRepository {
                 }
             }
     }
+
+    fun eliminarAviso(id: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        avisosCollection.document(id).delete()
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { onFailure(it) }
+    }
 }

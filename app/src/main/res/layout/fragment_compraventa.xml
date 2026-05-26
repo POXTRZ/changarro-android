@@ -61,8 +61,8 @@
                         android:background="@android:color/transparent"
                         android:hint="Comida, dulces, útiles..."
                         android:paddingHorizontal="16dp"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/text_secondary"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/text_hint"
                         android:textSize="14sp"
                         android:maxLines="1"
                         android:inputType="text" />
@@ -178,13 +178,29 @@
         android:orientation="vertical"
         android:visibility="gone">
 
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@android:drawable/ic_menu_search"
+            app:tint="@color/primary"
+            android:alpha="0.5" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="El mercado está vacío"
+            android:layout_marginTop="16dp"
+            android:text="No encontramos lo que buscas"
             android:textColor="@color/text_secondary"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Intenta con otra categoría o palabra"
+            android:textColor="@color/text_hint"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

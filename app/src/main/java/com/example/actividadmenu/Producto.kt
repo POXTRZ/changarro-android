@@ -10,5 +10,7 @@ data class Producto(
     val vendedorId: String = "",
     val vendedorNombre: String = "",
     val vendedorWhatsapp: String = "",
+    val vendedorCarrera: String = "",
+    val vendedorSemestre: String = "",
     val categoria: String = "Otros"
 )

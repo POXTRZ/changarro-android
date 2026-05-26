@@ -68,9 +68,8 @@
                     android:layout_height="wrap_content"
                     android:dateTextAppearance="@style/CalendarDateText"
                     android:weekDayTextAppearance="@style/CalendarWeekText"
-                    android:focusedMonthDateColor="@color/white"
-                    android:unfocusedMonthDateColor="@color/text_hint"
-                    android:selectedWeekBackgroundColor="@color/primary" />
+                    android:focusedMonthDateColor="@color/text_primary"
+                    android:unfocusedMonthDateColor="@color/text_hint" />
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
@@ -80,7 +79,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:text="Eventos del día seleccionado"
-                android:textColor="@color/white"
+                android:textColor="@color/text_primary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

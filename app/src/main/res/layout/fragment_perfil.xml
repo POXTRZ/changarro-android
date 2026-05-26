@@ -35,10 +35,10 @@
                     android:layout_gravity="end"
                     android:layout_marginEnd="8dp"
                     android:text="DEBUG: SEED"
-                    android:textColor="#80FFFFFF"
+                    android:textColor="@color/text_hint"
                     android:textSize="10sp"
                     app:icon="@android:drawable/stat_notify_sync"
-                    app:iconTint="#80FFFFFF"
+                    app:iconTint="@color/text_hint"
                     app:iconSize="16dp" />
 
                 <com.google.android.material.card.MaterialCardView
@@ -201,6 +201,27 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvAlertasStock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:visibility="gone"
+                tools:listitem="@layout/item_producto" />
+
+            <!-- FAVORITOS -->
+            <TextView
+                android:id="@+id/tvLabelFavoritos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mis Favoritos ❤️"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="12dp"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvFavoritos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"

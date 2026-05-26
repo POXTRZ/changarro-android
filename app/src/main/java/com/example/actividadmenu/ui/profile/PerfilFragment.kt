@@ -30,6 +30,7 @@ class PerfilFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var viewModel: ProfileViewModel
     private lateinit var stockAdapter: ProductoAdapter
+    private lateinit var favoritesAdapter: ProductoAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,6 +56,8 @@ class PerfilFragment : Fragment() {
         val tvMisVentas = view.findViewById<TextView>(R.id.tvMisVentas)
         val rvAlertasStock = view.findViewById<RecyclerView>(R.id.rvAlertasStock)
         val tvLabelAlertas = view.findViewById<TextView>(R.id.tvLabelAlertas)
+        val rvFavoritos = view.findViewById<RecyclerView>(R.id.rvFavoritos)
+        val tvLabelFavoritos = view.findViewById<TextView>(R.id.tvLabelFavoritos)
         
         // 3. Botones
         val btnLogout = view.findViewById<Button>(R.id.btnLogout)
@@ -81,6 +84,13 @@ class PerfilFragment : Fragment() {
         
         rvAlertasStock.layoutManager = LinearLayoutManager(context)
         rvAlertasStock.adapter = stockAdapter
+
+        // Configurar RecyclerView de Favoritos
+        favoritesAdapter = ProductoAdapter(emptyList(), onClick = { producto ->
+            // Ver detalle
+        }, onLongClick = {})
+        rvFavoritos.layoutManager = LinearLayoutManager(context)
+        rvFavoritos.adapter = favoritesAdapter
 
         val currentUser = auth.currentUser
         if (currentUser != null) {
@@ -129,6 +139,17 @@ class PerfilFragment : Fragment() {
             } else {
                 tvLabelAlertas.visibility = View.GONE
                 rvAlertasStock.visibility = View.GONE
+            }
+        }
+
+        viewModel.misFavoritos.observe(viewLifecycleOwner) { favoritos ->
+            if (favoritos.isNotEmpty()) {
+                tvLabelFavoritos.visibility = View.VISIBLE
+                rvFavoritos.visibility = View.VISIBLE
+                favoritesAdapter.updateLista(favoritos)
+            } else {
+                tvLabelFavoritos.visibility = View.GONE
+                rvFavoritos.visibility = View.GONE
             }
         }
 

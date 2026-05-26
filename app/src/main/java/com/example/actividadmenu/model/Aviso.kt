@@ -8,6 +8,7 @@ data class Aviso(
     val id: String = "",
     val autorId: String = "",
     val autorNombre: String = "",
+    val autorWhatsapp: String = "",
     val contenido: String = "",
     val timestamp: Long = System.currentTimeMillis()
 )

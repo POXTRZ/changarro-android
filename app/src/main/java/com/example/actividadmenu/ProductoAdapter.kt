@@ -10,8 +10,8 @@ import com.bumptech.glide.Glide
 
 class ProductoAdapter(
     private var listaProductos: List<Producto>,
-    private val onClick: (Producto) -> Unit,
-    private val onLongClick: (Producto) -> Unit,
+    private val onClick: (Producto) -> Unit = {},
+    private val onLongClick: (Producto) -> Unit = {},
     private val onFavoriteClick: ((Producto) -> Unit)? = null,
     private val onEliminarClick: ((Producto) -> Unit)? = null,
     private var favoritosIds: Set<String> = emptySet()
@@ -29,49 +29,34 @@ class ProductoAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductoViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_producto, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_producto, parent, false)
         return ProductoViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ProductoViewHolder, position: Int) {
         val producto = listaProductos[position]
         holder.tvNombre.text = producto.nombre
-        holder.tvVendedor.text = "Vendedor: ${if(producto.vendedorNombre.isEmpty()) "Estudiante" else producto.vendedorNombre}"
+        holder.tvVendedor.text = "por ${if(producto.vendedorNombre.isEmpty()) "Estudiante" else producto.vendedorNombre}"
         holder.tvDescripcion.text = producto.descripcion
         holder.tvPrecio.text = "$${producto.precio}"
         holder.tvStock.text = "Stock: ${producto.stock}"
 
-        // Estado de favorito
         val esFavorito = favoritosIds.contains(producto.id)
-        if (esFavorito) {
-            holder.ivFavorite.setImageResource(android.R.drawable.btn_star_big_on)
-            holder.ivFavorite.setColorFilter(holder.itemView.context.getColor(R.color.primary))
-        } else {
-            holder.ivFavorite.setImageResource(android.R.drawable.btn_star_big_off)
-            holder.ivFavorite.setColorFilter(holder.itemView.context.getColor(R.color.text_hint))
-        }
+        holder.ivFavorite.setImageResource(if (esFavorito) android.R.drawable.btn_star_big_on else android.R.drawable.btn_star_big_off)
 
-        // Cargar imagen con Glide
         if (producto.imagenUrl.isNotEmpty()) {
             Glide.with(holder.itemView.context)
                 .load(producto.imagenUrl)
                 .placeholder(R.drawable.ic_product_placeholder)
-                .error(R.drawable.ic_product_placeholder)
+                .centerCrop()
                 .into(holder.ivProducto)
         } else {
             holder.ivProducto.setImageResource(R.drawable.ic_product_placeholder)
         }
 
-        holder.itemView.setOnClickListener {
-            onClick(producto)
-        }
-
-        holder.ivFavorite.setOnClickListener {
-            onFavoriteClick?.invoke(producto)
-        }
-
-        // Mostrar eliminar si es el vendedor
+        holder.itemView.setOnClickListener { onClick(producto) }
+        holder.ivFavorite.setOnClickListener { onFavoriteClick?.invoke(producto) }
+        
         val miId = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid
         if (producto.vendedorId == miId) {
             holder.btnEliminar.visibility = View.VISIBLE

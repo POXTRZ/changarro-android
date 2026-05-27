@@ -182,6 +182,7 @@ class ProductoFragment : Fragment() {
                     viewModel.editarProducto(producto!!.id, datos)
                 } else {
                     val nuevoProducto = Producto(
+                        id = "", // Firebase generará el ID
                         nombre = nombre,
                         precio = precio,
                         stock = stock,

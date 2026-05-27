@@ -87,7 +87,9 @@ class PerfilFragment : Fragment() {
         }
 
         viewModel.totalProductosVendidos.observe(viewLifecycleOwner) { cantidad ->
-            tvMisVentas.text = "$cantidad items"
+            // Convertimos a Int porque el recurso string usa %d
+            val cantidadInt = cantidad.toIntOrNull() ?: 0
+            tvMisVentas.text = getString(R.string.items_count, cantidadInt)
         }
 
         viewModel.alertasStock.observe(viewLifecycleOwner) { productosBajos ->

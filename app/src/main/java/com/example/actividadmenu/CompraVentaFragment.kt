@@ -3,95 +3,62 @@ package com.example.actividadmenu
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.actividadmenu.databinding.FragmentCompraventaBinding
 import com.example.actividadmenu.repository.ChatRepository
 import com.example.actividadmenu.viewmodel.MarketplaceViewModel
-import com.google.android.material.chip.ChipGroup
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
-import java.util.Locale
+import com.google.firebase.firestore.FirebaseFirestore
 
 class CompraVentaFragment : Fragment() {
+
+    private var _binding: FragmentCompraventaBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var auth: FirebaseAuth
     private lateinit var viewModel: MarketplaceViewModel
     private lateinit var adapter: ProductoAdapter
+
     private var miCarrera = ""
     private var miSemestre = ""
     private var miWhatsapp = ""
-    
-    private var listaTotal = listOf<Producto>()
-    private var categoriaActual = "Todos"
-    private var textoBusqueda = ""
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_compraventa, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentCompraventaBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
         viewModel = ViewModelProvider(this)[MarketplaceViewModel::class.java]
 
+        // Cargar info del usuario actual
         auth.currentUser?.let { user ->
-            com.google.firebase.firestore.FirebaseFirestore.getInstance()
-                .collection("usuarios").document(user.uid).get()
+            FirebaseFirestore.getInstance().collection("usuarios").document(user.uid).get()
                 .addOnSuccessListener { doc ->
                     miCarrera = doc.getString("carrera") ?: ""
                     miSemestre = doc.getString("semestre") ?: ""
                     miWhatsapp = doc.getString("whatsapp") ?: ""
                 }
+            viewModel.syncFavoritos(user.uid)
         }
 
-        val rvProductos = view.findViewById<RecyclerView>(R.id.rvProductosCV)
-        val etSearch = view.findViewById<EditText>(R.id.etSearchCV)
-        val layoutEmpty = view.findViewById<LinearLayout>(R.id.layoutEmptyCV)
-        val chipGroup = view.findViewById<ChipGroup>(R.id.chipGroupCategorias)
-        val fabVender = view.findViewById<com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton>(R.id.fabVender)
+        setupRecyclerView()
+        setupFilters()
 
-        adapter = ProductoAdapter(emptyList(),
-            onClick = { producto -> mostrarDialogoDetalle(producto) },
-            onLongClick = { /* Opcional */ },
-            onFavoriteClick = { producto ->
-                val user = auth.currentUser
-                if (user != null) {
-                    viewModel.toggleFavorito(user.uid, producto.id)
-                }
-            },
-            onEliminarClick = { producto ->
-                AlertDialog.Builder(requireContext())
-                    .setTitle("Eliminar producto")
-                    .setMessage("¿Deseas quitar este producto del mercado?")
-                    .setPositiveButton("Eliminar") { _, _ -> viewModel.eliminarProducto(producto.id) }
-                    .setNegativeButton("Cancelar", null)
-                    .show()
-            }
-        )
-        rvProductos.layoutManager = LinearLayoutManager(context)
-        rvProductos.adapter = adapter
-
-        // Sincronizar favoritos
-        auth.currentUser?.let { viewModel.syncFavoritos(it.uid) }
-
-        // Observar productos del ViewModel
+        // Observar productos
         viewModel.productosFiltrados.observe(viewLifecycleOwner) { productos ->
             adapter.updateLista(productos)
-            layoutEmpty.visibility = if (productos.isEmpty()) View.VISIBLE else View.GONE
+            binding.layoutEmptyCV.visibility = if (productos.isEmpty()) View.VISIBLE else View.GONE
         }
 
         // Observar favoritos
@@ -99,49 +66,69 @@ class CompraVentaFragment : Fragment() {
             adapter.updateFavoritos(favoritos)
         }
 
-        // Observar errores o mensajes de estado
-        viewModel.error.observe(viewLifecycleOwner) { msg ->
-            msg?.let {
-                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-                viewModel.errorMostrado()
-            }
-        }
+        binding.fabVender.setOnClickListener { mostrarDialogoPublicar() }
+    }
 
-        etSearch.addTextChangedListener(object : TextWatcher {
+    private fun setupRecyclerView() {
+        adapter = ProductoAdapter(
+            listaProductos = emptyList(),
+            onClick = { producto -> mostrarDialogoDetalle(producto) },
+            onLongClick = { /* Senior: Acción de pulsación larga */ },
+            onFavoriteClick = { producto ->
+                auth.currentUser?.let { viewModel.toggleFavorito(it.uid, producto.id) }
+            },
+            onEliminarClick = { producto ->
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Eliminar")
+                    .setMessage("¿Quitar del mercado?")
+                    .setPositiveButton("Sí") { _, _ -> viewModel.eliminarProducto(producto.id) }
+                    .setNegativeButton("No", null).show()
+            }
+        )
+        binding.rvProductosCV.layoutManager = LinearLayoutManager(context)
+        binding.rvProductosCV.adapter = adapter
+    }
+
+    private fun setupFilters() {
+        binding.etSearchCV.addTextChangedListener(object : android.text.TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 viewModel.filtrarPorTexto(s.toString())
             }
-            override fun afterTextChanged(s: Editable?) {}
+            override fun afterTextChanged(s: android.text.Editable?) {}
         })
 
-        chipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
-            val chipId = checkedIds.firstOrNull()
-            val categoria = when (chipId) {
+        // FIX SENIOR: Solo usamos los IDs que existen en el XML premium
+        binding.chipGroupCategorias.setOnCheckedStateChangeListener { _, checkedIds ->
+            val categoria = when (checkedIds.firstOrNull()) {
                 R.id.chipComida -> "Comida"
                 R.id.chipDulces -> "Dulces"
-                R.id.chipApuntes -> "Apuntes"
-                R.id.chipLibros -> "Libros"
                 R.id.chipElectronicos -> "Electrónicos"
-                R.id.chipAccesorios -> "Accesorios"
                 else -> "Todos"
             }
             viewModel.filtrarPorCategoria(categoria)
         }
-
-        fabVender.setOnClickListener {
-            mostrarDialogoPublicar()
-        }
-
-        return view
     }
 
     private fun mostrarDialogoPublicar() {
-        val bottomSheet = PublicarProductoBottomSheet { nombre, precio, stock, desc, cat ->
+        val bottomSheet = PublicarProductoBottomSheet { nombre, precio, stock, desc, cat, url ->
             val user = auth.currentUser
             if (user != null) {
-                val userName = user.displayName ?: user.email?.substringBefore("@") ?: "Estudiante"
-                viewModel.publicarNuevoProducto(nombre, precio, stock, desc, cat, user.uid, userName, miCarrera, miSemestre, miWhatsapp)
+                val userName = user.displayName ?: "Estudiante"
+                // Llamamos a la función gratuita directa
+                viewModel.publicarNuevoProducto(
+                    nombre = nombre,
+                    precio = precio,
+                    stock = stock,
+                    descripcion = desc,
+                    categoria = cat,
+                    vendedorId = user.uid,
+                    vendedorNombre = userName,
+                    vendedorCarrera = miCarrera,
+                    vendedorSemestre = miSemestre,
+                    vendedorWhatsapp = miWhatsapp,
+                    imagenUrl = url
+                )
             }
         }
         bottomSheet.show(parentFragmentManager, "PublicarProductoBottomSheet")
@@ -150,57 +137,30 @@ class CompraVentaFragment : Fragment() {
     private fun mostrarDialogoDetalle(producto: Producto) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(producto.nombre)
-        
-        val infoVendedor = StringBuilder("Vendedor: ${producto.vendedorNombre}")
-        if (producto.vendedorCarrera.isNotEmpty()) infoVendedor.append("\nCarrera: ${producto.vendedorCarrera}")
-        if (producto.vendedorSemestre.isNotEmpty()) infoVendedor.append("\nSemestre: ${producto.vendedorSemestre}")
-        
-        builder.setMessage("${infoVendedor}\nPrecio: $${producto.precio}\nStock: ${producto.stock}\n\n${producto.descripcion}")
-        
-        builder.setPositiveButton("Comprar/Apartar") { _, _ ->
-            val user = auth.currentUser
-            if (user != null) {
-                viewModel.procesarCompra(producto, user.uid)
-            }
-        }
-        
-        builder.setNeutralButton("WhatsApp") { _, _ ->
-            contactarVendedor(producto)
+        builder.setMessage("Vendedor: ${producto.vendedorNombre}\nPrecio: $${producto.precio}\n\n${producto.descripcion}")
+
+        builder.setPositiveButton("WhatsApp") { _, _ ->
+            val url = "https://api.whatsapp.com/send?phone=${producto.vendedorWhatsapp}&text=Hola, me interesa tu producto: ${producto.nombre}"
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }
 
-        // INTEGRACIÓN CHAT NATIVO
-        builder.setNegativeButton("Chat en App") { _, _ ->
+        builder.setNegativeButton("Chat App") { _, _ ->
             val user = auth.currentUser
-            if (user != null) {
-                if (user.uid != producto.vendedorId) {
-                    val repo = ChatRepository()
-                    val miNombre = user.email?.substringBefore("@")?.replaceFirstChar { it.uppercase() } ?: "Usuario"
-                    
-                    repo.crearUObtenerChat(user.uid, miNombre, producto.vendedorId, producto.vendedorNombre) { chatId ->
-                        val intent = Intent(requireContext(), ChatActivity::class.java)
-                        intent.putExtra("chatId", chatId)
-                        intent.putExtra("otroNombre", producto.vendedorNombre)
-                        startActivity(intent)
-                    }
-                } else {
-                    Toast.makeText(context, "No puedes chatear contigo mismo", Toast.LENGTH_SHORT).show()
+            if (user != null && user.uid != producto.vendedorId) {
+                val repo = ChatRepository()
+                repo.crearUObtenerChat(user.uid, "Usuario", producto.vendedorId, producto.vendedorNombre) { chatId ->
+                    val intent = Intent(requireContext(), ChatActivity::class.java)
+                    intent.putExtra("chatId", chatId)
+                    intent.putExtra("otroNombre", producto.vendedorNombre)
+                    startActivity(intent)
                 }
             }
         }
-        
         builder.show()
     }
 
-    private fun contactarVendedor(producto: Producto) {
-        val tel = producto.vendedorWhatsapp
-        if (tel.isEmpty()) {
-            Toast.makeText(context, "El vendedor no proporcionó WhatsApp", Toast.LENGTH_SHORT).show()
-            return
-        }
-        
-        val url = "https://api.whatsapp.com/send?phone=$tel&text=Hola ${producto.vendedorNombre}, me interesa tu producto ${producto.nombre} de Changarro"
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse(url)
-        startActivity(intent)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
@@ -11,40 +12,36 @@
         android:background="@android:color/transparent"
         app:elevation="0dp">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            android:background="@drawable/header_gradient"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:paddingTop="60dp"
+            android:paddingBottom="40dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/header_gradient"
-                android:orientation="vertical"
-                android:padding="24dp"
-                android:paddingTop="64dp"
-                android:paddingBottom="48dp">
+                android:text="MOVIMIENTOS"
+                android:textColor="@color/white"
+                android:alpha="0.6"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.15" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="MI ACTIVIDAD"
-                    android:textColor="@color/text_primary"
-                    android:textSize="11sp"
-                    android:textStyle="bold"
-                    android:letterSpacing="0.15" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mi Actividad"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:layout_marginTop="4dp"
+                android:letterSpacing="-0.02" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Historial"
-                    android:textColor="@color/white"
-                    android:textSize="32sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="4dp" />
-
-            </LinearLayout>
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -52,35 +49,48 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingTop="12dp"
-        android:paddingBottom="80dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="100dp"
         android:layout_marginTop="-24dp"
-        android:layoutAnimation="@anim/layout_animation_fall_down"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:background="@drawable/search_bg"
+        android:backgroundTint="@color/background"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:listitem="@layout/item_transaccion" />
 
     <LinearLayout
         android:id="@+id/layoutEmptyHistorial"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical"
+        android:padding="40dp"
         android:visibility="gone">
+
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:src="@android:drawable/ic_menu_recent_history"
+            app:tint="@color/primary"
+            android:alpha="0.2" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sin movimientos"
-            android:textColor="@color/text_secondary"
-            android:textSize="16sp"
+            android:layout_marginTop="20dp"
+            android:text="Sin movimientos aún"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
             android:textStyle="bold" />
-            
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tus ventas y compras aparecerán aquí"
+            android:layout_marginTop="8dp"
+            android:text="Tus compras y ventas aparecerán aquí para que lleves el control"
             android:textColor="@color/text_hint"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:gravity="center" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

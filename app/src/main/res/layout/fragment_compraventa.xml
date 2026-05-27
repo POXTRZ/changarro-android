@@ -23,44 +23,47 @@
                 android:background="@drawable/header_gradient"
                 android:orientation="vertical"
                 android:padding="24dp"
-                android:paddingTop="64dp"
-                android:paddingBottom="24dp">
+                android:paddingTop="60dp"
+                android:paddingBottom="40dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="MERCADO ESTUDIANTIL"
-                    android:textColor="@color/text_hint"
-                    android:textSize="11sp"
+                    android:text="MERCADO"
+                    android:textColor="@color/white"
+                    android:alpha="0.6"
+                    android:textSize="12sp"
                     android:textStyle="bold"
                     android:letterSpacing="0.15" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="¿Qué se te antoja?"
+                    android:text="¿Qué buscas hoy?"
                     android:textColor="@color/white"
-                    android:textSize="28sp"
+                    android:textSize="32sp"
                     android:textStyle="bold"
-                    android:layout_marginTop="4dp" />
+                    android:layout_marginTop="4dp"
+                    android:letterSpacing="-0.02" />
 
+                <!-- Search Bar Senior -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="28dp"
                     app:cardCornerRadius="28dp"
-                    app:cardElevation="8dp"
+                    app:cardElevation="12dp"
                     app:cardBackgroundColor="@color/surface">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:paddingHorizontal="16dp">
+                        android:paddingHorizontal="20dp">
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
                             android:src="@android:drawable/ic_menu_search"
                             app:tint="@color/primary" />
 
@@ -69,11 +72,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@android:color/transparent"
-                            android:hint="¿Qué buscas hoy?"
+                            android:hint="Pizza, libros, tutorías..."
                             android:paddingHorizontal="12dp"
                             android:textColor="@color/text_primary"
                             android:textColorHint="@color/text_hint"
-                            android:textSize="16sp"
+                            android:textSize="15sp"
                             android:maxLines="1"
                             android:inputType="text" />
                     </LinearLayout>
@@ -82,7 +85,7 @@
                 <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="20dp"
                     android:scrollbars="none">
 
                     <com.google.android.material.chip.ChipGroup
@@ -99,9 +102,8 @@
                             android:layout_height="wrap_content"
                             android:text="Todos"
                             android:checked="true"
-                            android:textColor="@color/white"
-                            app:chipBackgroundColor="@color/surface_variant"
-                            app:chipStrokeWidth="0dp" />
+                            app:chipCornerRadius="12dp"
+                            app:chipBackgroundColor="@color/surface_variant" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chipComida"
@@ -109,9 +111,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Comida"
-                            android:textColor="@color/white"
-                            app:chipBackgroundColor="@color/surface_variant"
-                            app:chipStrokeWidth="0dp" />
+                            app:chipCornerRadius="12dp"
+                            app:chipBackgroundColor="@color/surface_variant" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chipDulces"
@@ -119,49 +120,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Dulces"
-                            android:textColor="@color/white"
-                            app:chipBackgroundColor="@color/surface_variant"
-                            app:chipStrokeWidth="0dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chipApuntes"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Apuntes"
-                            android:textColor="@color/white"
-                            app:chipBackgroundColor="@color/surface_variant"
-                            app:chipStrokeWidth="0dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chipLibros"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Libros"
-                            android:textColor="@color/white"
-                            app:chipBackgroundColor="@color/surface_variant"
-                            app:chipStrokeWidth="0dp" />
+                            app:chipCornerRadius="12dp"
+                            app:chipBackgroundColor="@color/surface_variant" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chipElectronicos"
                             style="@style/Widget.MaterialComponents.Chip.Choice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Electrónicos"
-                            android:textColor="@color/white"
-                            app:chipBackgroundColor="@color/surface_variant"
-                            app:chipStrokeWidth="0dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chipAccesorios"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Accesorios"
-                            android:textColor="@color/white"
-                            app:chipBackgroundColor="@color/surface_variant"
-                            app:chipStrokeWidth="0dp" />
+                            android:text="Tech"
+                            app:chipCornerRadius="12dp"
+                            app:chipBackgroundColor="@color/surface_variant" />
 
                     </com.google.android.material.chip.ChipGroup>
                 </HorizontalScrollView>
@@ -175,43 +144,47 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingTop="12dp"
+        android:paddingTop="20dp"
         android:paddingBottom="100dp"
-        android:layout_marginTop="-20dp"
+        android:layout_marginTop="-24dp"
+        android:background="@drawable/search_bg"
+        android:backgroundTint="@color/background"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <LinearLayout
         android:id="@+id/layoutEmptyCV"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical"
+        android:padding="40dp"
         android:visibility="gone">
 
         <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:src="@android:drawable/ic_menu_search"
             app:tint="@color/primary"
-            android:alpha="0.5" />
+            android:alpha="0.2" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="No encontramos lo que buscas"
-            android:textColor="@color/text_secondary"
-            android:textSize="18sp"
+            android:layout_marginTop="20dp"
+            android:text="Nada por aquí todavía"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Intenta con otra categoría o palabra"
+            android:text="Sé el primero en vender algo épico"
             android:textColor="@color/text_hint"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:gravity="center" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -220,10 +193,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="24dp"
-        android:text="Vender"
+        android:text="Vender algo"
         android:textColor="@color/white"
         app:icon="@android:drawable/ic_input_add"
         app:iconTint="@color/white"
-        app:backgroundTint="@color/primary" />
+        app:backgroundTint="@color/primary"
+        app:elevation="8dp"
+        app:cornerRadius="20dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

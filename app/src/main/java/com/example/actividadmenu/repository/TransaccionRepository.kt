@@ -2,6 +2,7 @@ package com.example.actividadmenu.repository
 
 import com.example.actividadmenu.Transaccion
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import java.util.Calendar
 
 /**
@@ -13,9 +14,24 @@ class TransaccionRepository {
     private val transaccionesCollection = db.collection("transacciones")
 
     /**
+     * Obtiene todas las transacciones de un usuario en tiempo real.
+     */
+    fun obtenerMisTransaccionesRealtime(userId: String, onSuccess: (List<Transaccion>) -> Unit, onFailure: (Exception) -> Unit) {
+        transaccionesCollection
+            .whereEqualTo("vendedorId", userId)
+            .orderBy("fecha", Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    onFailure(error)
+                    return@addSnapshotListener
+                }
+                val lista = snapshot?.documents?.mapNotNull { it.toObject(Transaccion::class.java) } ?: emptyList()
+                onSuccess(lista)
+            }
+    }
+
+    /**
      * Obtiene las estadísticas de ventas realizadas el día de hoy en tiempo real.
-     * @param userId ID del vendedor.
-     * @param onSuccess Callback que devuelve (montoTotalAcumulado, cantidadDeTransacciones).
      */
     fun obtenerMisVentasHoy(
         userId: String,

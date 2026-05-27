@@ -34,6 +34,10 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    viewBinding {
+        enable = true
+    }
 }
 
 dependencies {
@@ -41,6 +45,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
+    // Firebase Storage eliminado para evitar costos
     implementation(libs.play.services.auth)
 
     implementation(libs.androidx.core.ktx)
@@ -49,10 +54,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     
-    // Glide para imágenes
     implementation(libs.glide)
-    
-    // Lottie para animaciones épicas
     implementation(libs.lottie)
     
     testImplementation(libs.junit)

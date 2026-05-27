@@ -4,20 +4,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.actividadmenu.Producto
+import com.example.actividadmenu.model.Usuario
 import com.example.actividadmenu.repository.ProductoRepository
 import com.example.actividadmenu.repository.TransaccionRepository
+import com.example.actividadmenu.repository.UsuarioRepository
 import java.util.Locale
 
-/**
- * ViewModel para gestionar el Dashboard del Perfil del usuario.
- * Procesa datos financieros y de inventario para la UI.
- */
 class ProfileViewModel : ViewModel() {
 
     private val productoRepo = ProductoRepository()
     private val transaccionRepo = TransaccionRepository()
+    private val usuarioRepo = UsuarioRepository()
 
-    // LiveData para la UI
+    // LiveData para los datos del usuario (Nombre, Carrera, etc)
+    private val _perfilUsuario = MutableLiveData<Usuario>()
+    val perfilUsuario: LiveData<Usuario> get() = _perfilUsuario
+
     private val _ventasHoy = MutableLiveData<String>()
     val ventasHoy: LiveData<String> get() = _ventasHoy
 
@@ -27,13 +29,22 @@ class ProfileViewModel : ViewModel() {
     private val _alertasStock = MutableLiveData<List<Producto>>()
     val alertasStock: LiveData<List<Producto>> get() = _alertasStock
 
-    /**
-     * Carga y procesa los datos del perfil en tiempo real.
-     * @param userId ID del usuario autenticado.
-     */
+    private val _misFavoritos = MutableLiveData<List<Producto>>()
+    val misFavoritos: LiveData<List<Producto>> get() = _misFavoritos
+
     fun cargarDatosPerfil(userId: String) {
+        // 1. Cargar datos básicos del perfil
+        usuarioRepo.obtenerUsuario(userId, 
+            onSuccess = { usuario ->
+                _perfilUsuario.value = usuario
+            },
+            onFailure = {
+                // Fallback si no hay datos en Firestore
+                _perfilUsuario.value = Usuario(nombre = "Estudiante")
+            }
+        )
         
-        // 1. Obtener estadísticas de ventas de hoy
+        // 2. Obtener estadísticas de ventas de hoy
         transaccionRepo.obtenerMisVentasHoy(
             userId = userId,
             onSuccess = { monto, cantidad ->
@@ -46,17 +57,22 @@ class ProfileViewModel : ViewModel() {
             }
         )
 
-        // 2. Obtener productos para monitorear alertas de stock
+        // 3. Monitorear alertas de stock
         productoRepo.obtenerMisProductos(
             userId = userId,
             onSuccess = { productos ->
-                // Filtramos productos con stock crítico (< 5)
                 val criticos = productos.filter { it.stock < 5 }
                 _alertasStock.value = criticos
             },
-            onFailure = {
-                _alertasStock.value = emptyList()
-            }
+            onFailure = { _alertasStock.value = emptyList() }
         )
+
+        // 4. Cargar Favoritos real (opcional pero Senior)
+        usuarioRepo.escucharUsuario(userId) { user ->
+            productoRepo.obtenerTodosLosProductosRealtime({ todos ->
+                val favs = todos.filter { user.favoritos.contains(it.id) }
+                _misFavoritos.value = favs
+            }, {})
+        }
     }
 }

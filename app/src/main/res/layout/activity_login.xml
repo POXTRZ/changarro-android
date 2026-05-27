@@ -10,7 +10,7 @@
     <View
         android:id="@+id/bgGradient"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="400dp"
         android:background="@drawable/header_gradient"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,24 +20,24 @@
         android:layout_height="wrap_content"
         android:text="CU"
         android:textColor="@color/white"
-        android:textSize="72sp"
+        android:textSize="80sp"
         android:textStyle="bold"
-        android:letterSpacing="0.1"
-        android:elevation="10dp"
+        android:letterSpacing="0.05"
         app:layout_constraintBottom_toBottomOf="@id/bgGradient"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/bgGradient"
-        app:layout_constraintVertical_bias="0.4" />
+        app:layout_constraintVertical_bias="0.35" />
 
     <TextView
         android:id="@+id/tvAppSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Changarro Estudiantil"
-        android:textColor="@color/glass_white"
-        android:textSize="16sp"
-        android:letterSpacing="0.2"
+        android:text="Changarro Universitario"
+        android:textColor="@color/white"
+        android:alpha="0.8"
+        android:textSize="18sp"
+        android:letterSpacing="0.1"
         app:layout_constraintTop_toBottomOf="@id/tvAppLogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -45,14 +45,14 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="28dp"
+        android:layout_marginHorizontal="24dp"
         app:cardCornerRadius="32dp"
-        app:cardElevation="12dp"
+        app:cardElevation="16dp"
         app:strokeWidth="1dp"
-        app:strokeColor="#1AFFFFFF"
+        app:strokeColor="#10FFFFFF"
         app:cardBackgroundColor="@color/surface"
         app:layout_constraintTop_toBottomOf="@id/bgGradient"
-        android:layout_marginTop="-60dp">
+        android:layout_marginTop="-80dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,40 +63,37 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ingresar"
+                android:text="¡Qué onda!"
                 android:textColor="@color/text_primary"
                 android:textSize="28sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:letterSpacing="-0.02" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hola de nuevo, te extrañamos"
+                android:text="Ingresa para ver qué hay de nuevo"
                 android:textColor="@color/text_secondary"
                 android:textSize="14sp"
-                android:layout_marginBottom="24dp" />
+                android:layout_marginBottom="28dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email Universitario"
+                android:hint="Correo"
                 app:boxCornerRadiusBottomEnd="16dp"
                 app:boxCornerRadiusBottomStart="16dp"
                 app:boxCornerRadiusTopEnd="16dp"
                 app:boxCornerRadiusTopStart="16dp"
                 app:startIconDrawable="@android:drawable/ic_dialog_email"
-                app:startIconTint="@color/primary"
-                android:textColorHint="@color/text_hint"
-                app:hintTextColor="@color/primary"
-                app:boxStrokeColor="@color/primary">
+                app:startIconTint="@color/primary">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:textColor="@color/text_primary" />
+                    android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -110,42 +107,27 @@
                 app:boxCornerRadiusTopEnd="16dp"
                 app:boxCornerRadiusTopStart="16dp"
                 app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/text_secondary"
                 app:startIconDrawable="@android:drawable/ic_lock_idle_lock"
-                app:startIconTint="@color/primary"
-                android:textColorHint="@color/text_hint"
-                app:hintTextColor="@color/primary"
-                app:boxStrokeColor="@color/primary">
+                app:startIconTint="@color/primary">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:textColor="@color/text_primary" />
+                    android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="¿Olvidaste tu contraseña?"
-                android:textColor="@color/primary"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:layout_gravity="end"
-                android:layout_marginTop="12dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLogin"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_marginTop="32dp"
-                android:text="Entrar al Mercado"
+                android:text="Entrar"
                 android:textAllCaps="false"
-                android:textSize="16sp"
+                android:textSize="17sp"
                 android:textStyle="bold"
-                app:cornerRadius="18dp"
-                android:backgroundTint="@color/primary"
+                app:cornerRadius="20dp"
+                app:backgroundTint="@color/primary"
                 app:elevation="8dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -153,12 +135,12 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:text="Continuar con Google"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 android:textColor="@color/text_primary"
-                app:cornerRadius="18dp"
+                app:cornerRadius="20dp"
                 app:strokeColor="@color/divider"
                 app:icon="@android:drawable/ic_menu_gallery"
                 app:iconGravity="textStart"
@@ -171,8 +153,8 @@
         android:id="@+id/tvGoToRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="¿Eres nuevo? Crea una cuenta aquí"
+        android:layout_marginBottom="40dp"
+        android:text="¿No tienes cuenta? Regístrate aquí"
         android:textColor="@color/primary"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

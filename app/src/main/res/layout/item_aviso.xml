@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="8dp"
-    app:cardCornerRadius="24dp"
+    android:layout_marginVertical="10dp"
+    app:cardCornerRadius="28dp"
     app:cardElevation="0dp"
     app:strokeWidth="1dp"
     app:strokeColor="#1AFFFFFF"
@@ -24,18 +24,19 @@
             android:gravity="center_vertical">
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                app:cardCornerRadius="20dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                app:cardCornerRadius="22dp"
                 app:cardElevation="0dp"
-                app:cardBackgroundColor="@color/primary">
+                app:cardBackgroundColor="@color/primary_container">
                 <TextView
                     android:id="@+id/tvAvatarLetra"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="U"
                     android:gravity="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/primary"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
             </com.google.android.material.card.MaterialCardView>
 
@@ -43,7 +44,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="14dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -53,44 +54,48 @@
                     android:text="Nombre Autor"
                     android:textColor="@color/text_primary"
                     android:textStyle="bold"
-                    android:textSize="15sp" />
+                    android:textSize="16sp"
+                    android:letterSpacing="-0.01" />
 
                 <TextView
                     android:id="@+id/tvFecha"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hace un momento"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="11sp" />
+                    android:textColor="@color/text_hint"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <ImageButton
                 android:id="@+id/btnChatAviso"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@android:drawable/stat_notify_chat"
                 app:tint="@color/primary"
-                android:visibility="gone" />
-
-            <ImageButton
-                android:id="@+id/btnEliminarAviso"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="8dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@android:drawable/ic_menu_delete"
-                app:tint="#FF5252"
+                android:padding="6dp"
                 android:visibility="gone" />
 
             <ImageButton
                 android:id="@+id/btnWhatsappAviso"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="8dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="4dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@android:drawable/stat_sys_phone_call"
                 app:tint="#4CAF50"
+                android:padding="6dp"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/btnEliminarAviso"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="4dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_menu_delete"
+                app:tint="#FF5252"
+                android:padding="6dp"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -102,7 +107,8 @@
             android:text="Contenido del aviso..."
             android:textColor="@color/text_primary"
             android:textSize="15sp"
-            android:lineSpacingExtra="4dp" />
+            android:lineSpacingExtra="5dp"
+            android:alpha="0.9" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

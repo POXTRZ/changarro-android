@@ -11,8 +11,17 @@ class UsuarioRepository {
     fun obtenerUsuario(uid: String, onSuccess: (Usuario) -> Unit, onFailure: (Exception) -> Unit) {
         usuariosCollection.document(uid).get()
             .addOnSuccessListener { doc ->
-                val usuario = doc.toObject(Usuario::class.java)
-                if (usuario != null) onSuccess(usuario)
+                if (doc.exists()) {
+                    val usuario = doc.toObject(Usuario::class.java)
+                    if (usuario != null) {
+                        onSuccess(usuario)
+                    } else {
+                        onFailure(Exception("Error al convertir datos"))
+                    }
+                } else {
+                    // FIX: Si el documento no existe, enviamos un usuario vacío con el UID
+                    onSuccess(Usuario(uid = uid, nombre = "Estudiante Nuevo"))
+                }
             }
             .addOnFailureListener { onFailure(it) }
     }

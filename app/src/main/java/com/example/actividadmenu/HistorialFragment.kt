@@ -4,52 +4,53 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
+import com.example.actividadmenu.databinding.FragmentHistorialBinding
+import com.example.actividadmenu.viewmodel.MisProductosViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 class HistorialFragment : Fragment() {
 
-    private lateinit var db: FirebaseFirestore
+    private var _binding: FragmentHistorialBinding? = null
+    private val binding get() = _binding!!
+    
+    private lateinit var viewModel: MisProductosViewModel
     private lateinit var adapter: TransaccionAdapter
-    private var listaTransacciones = mutableListOf<Transaccion>()
+    private val auth = FirebaseAuth.getInstance()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_historial, container, false)
-
-        db = FirebaseFirestore.getInstance()
-        val rvHistorial = view.findViewById<RecyclerView>(R.id.rvHistorial)
-        val layoutEmpty = view.findViewById<LinearLayout>(R.id.layoutEmptyHistorial)
-
-        adapter = TransaccionAdapter(listaTransacciones)
-        rvHistorial.layoutManager = LinearLayoutManager(context)
-        rvHistorial.adapter = adapter
-
-        escucharTransacciones(layoutEmpty)
-
-        return view
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentHistorialBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    private fun escucharTransacciones(layoutEmpty: View) {
-        db.collection("transacciones")
-            .orderBy("fecha", Query.Direction.DESCENDING)
-            .addSnapshotListener { snapshot, e ->
-                if (e != null || snapshot == null) return@addSnapshotListener
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-                listaTransacciones.clear()
-                for (doc in snapshot) {
-                    val trans = doc.toObject(Transaccion::class.java).copy(id = doc.id)
-                    listaTransacciones.add(trans)
-                }
-                adapter.updateLista(listaTransacciones)
-                layoutEmpty.visibility = if (listaTransacciones.isEmpty()) View.VISIBLE else View.GONE
-            }
+        // Usamos el ViewModel de MisProductos ya que maneja las transacciones del usuario
+        viewModel = ViewModelProvider(this)[MisProductosViewModel::class.java]
+
+        setupRecyclerView()
+
+        viewModel.listaTransacciones.observe(viewLifecycleOwner) { lista ->
+            adapter.updateLista(lista)
+            binding.layoutEmptyHistorial.visibility = if (lista.isEmpty()) View.VISIBLE else View.GONE
+        }
+
+        auth.currentUser?.let {
+            viewModel.cargarTransacciones(it.uid)
+        }
+    }
+
+    private fun setupRecyclerView() {
+        adapter = TransaccionAdapter(emptyList())
+        binding.rvHistorial.layoutManager = LinearLayoutManager(context)
+        binding.rvHistorial.adapter = adapter
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -18,8 +18,8 @@
             android:background="@drawable/header_gradient"
             android:orientation="vertical"
             android:padding="24dp"
-            android:paddingTop="48dp"
-            android:paddingBottom="32dp"
+            android:paddingTop="60dp"
+            android:paddingBottom="40dp"
             app:layout_scrollFlags="scroll|enterAlways">
 
             <TextView
@@ -28,35 +28,36 @@
                 android:layout_height="wrap_content"
                 android:text="Hola, Estudiante"
                 android:textColor="@color/white"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:letterSpacing="-0.02" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="¿Qué necesitas en el campus hoy?"
-                android:textColor="@color/text_hint"
+                android:text="Bienvenido a tu campus digital"
+                android:textColor="@color/white"
+                android:alpha="0.7"
                 android:textSize="14sp"
                 android:layout_marginTop="4dp" />
 
-            <!-- "Where to?" Style Search Bar (Uber/DiDi style) -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="28dp"
                 app:cardCornerRadius="28dp"
-                app:cardElevation="8dp"
+                app:cardElevation="12dp"
                 app:cardBackgroundColor="@color/surface">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:paddingHorizontal="16dp">
+                    android:paddingHorizontal="20dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
                         android:src="@android:drawable/ic_menu_search"
                         app:tint="@color/primary" />
 
@@ -65,13 +66,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@android:color/transparent"
-                        android:hint="Buscar comida, libros, avisos..."
+                        android:hint="¿Buscas algo en específico?"
                         android:textColorHint="@color/text_hint"
                         android:textColor="@color/text_primary"
                         android:paddingHorizontal="12dp"
-                        android:textSize="16sp"
-                        android:maxLines="1"
-                        android:inputType="text" />
+                        android:textSize="15sp"
+                        android:maxLines="1" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -82,6 +82,7 @@
         android:id="@+id/nestedScrollInicio"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="-24dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -90,23 +91,23 @@
             android:orientation="vertical"
             android:paddingBottom="100dp">
 
-            <!-- DiDi/Uber Style Category Grid -->
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:columnCount="3"
-                android:paddingHorizontal="16dp"
-                android:layout_marginTop="16dp">
+                android:paddingHorizontal="12dp"
+                android:layout_marginTop="24dp">
 
-                <!-- Service 1: Mercado -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/btnNavMercado"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="2dp"
+                    android:layout_margin="6dp"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#10000000"
                     app:cardBackgroundColor="@color/surface">
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -114,20 +115,28 @@
                         android:orientation="vertical"
                         android:padding="16dp"
                         android:gravity="center">
-                        <ImageView android:layout_width="40dp" android:layout_height="40dp" android:src="@android:drawable/ic_menu_search" app:tint="@color/primary" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mercado" android:textColor="@color/text_primary" android:textSize="12sp" android:layout_marginTop="8dp" android:textStyle="bold" />
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            app:cardCornerRadius="24dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="#10007AFF">
+                            <ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_gravity="center" android:src="@android:drawable/ic_menu_search" app:tint="@color/primary" />
+                        </com.google.android.material.card.MaterialCardView>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mercado" android:textColor="@color/text_primary" android:textSize="13sp" android:layout_marginTop="10dp" android:textStyle="bold" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Service 2: Avisos -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/btnNavAvisos"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="2dp"
+                    android:layout_margin="6dp"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#10000000"
                     app:cardBackgroundColor="@color/surface">
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -135,20 +144,28 @@
                         android:orientation="vertical"
                         android:padding="16dp"
                         android:gravity="center">
-                        <ImageView android:layout_width="40dp" android:layout_height="40dp" android:src="@android:drawable/ic_menu_view" app:tint="@color/secondary" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Avisos" android:textColor="@color/text_primary" android:textSize="12sp" android:layout_marginTop="8dp" android:textStyle="bold" />
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            app:cardCornerRadius="24dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="#105856D6">
+                            <ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_gravity="center" android:src="@android:drawable/ic_menu_view" app:tint="@color/secondary" />
+                        </com.google.android.material.card.MaterialCardView>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Avisos" android:textColor="@color/text_primary" android:textSize="13sp" android:layout_marginTop="10dp" android:textStyle="bold" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Service 3: Eventos -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/btnNavEventos"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="2dp"
+                    android:layout_margin="6dp"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#10000000"
                     app:cardBackgroundColor="@color/surface">
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -156,43 +173,56 @@
                         android:orientation="vertical"
                         android:padding="16dp"
                         android:gravity="center">
-                        <ImageView android:layout_width="40dp" android:layout_height="40dp" android:src="@android:drawable/ic_menu_today" app:tint="@color/accent" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Eventos" android:textColor="@color/text_primary" android:textSize="12sp" android:layout_marginTop="8dp" android:textStyle="bold" />
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            app:cardCornerRadius="24dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="#1030B0C7">
+                            <ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_gravity="center" android:src="@android:drawable/ic_menu_today" app:tint="@color/accent" />
+                        </com.google.android.material.card.MaterialCardView>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Eventos" android:textColor="@color/text_primary" android:textSize="13sp" android:layout_marginTop="10dp" android:textStyle="bold" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
             </GridLayout>
 
-            <!-- Featured Section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Más populares hoy"
-                android:textColor="@color/text_primary"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvDestacados"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:clipToPadding="false"
-                android:paddingHorizontal="16dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_producto_mini" />
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Destacados del campus"
+                    android:textColor="@color/text_primary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="32dp"
+                    android:letterSpacing="-0.02" />
+                
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvDestacados"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:clipToPadding="false"
+                    android:paddingHorizontal="12dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_producto_mini" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Novedades de la comunidad"
+                android:text="Lo último en la comunidad"
                 android:textColor="@color/text_primary"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="32dp" />
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="32dp"
+                android:letterSpacing="-0.02" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvAvisos"
@@ -201,11 +231,6 @@
                 android:layout_marginTop="12dp"
                 android:nestedScrollingEnabled="false"
                 tools:listitem="@layout/item_aviso" />
-
-            <!-- Espacio extra para asegurar el scroll fluido -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="120dp" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
@@ -220,6 +245,8 @@
         android:textColor="@color/white"
         app:icon="@android:drawable/ic_input_add"
         app:iconTint="@color/white"
-        app:backgroundTint="@color/primary" />
+        app:backgroundTint="@color/primary"
+        app:elevation="8dp"
+        app:cornerRadius="16dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

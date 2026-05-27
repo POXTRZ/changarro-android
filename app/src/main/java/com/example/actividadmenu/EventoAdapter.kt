@@ -14,12 +14,11 @@ class EventoAdapter(private var eventos: List<Evento>) :
         val tvTitulo: TextView = view.findViewById(R.id.tvTituloEvento)
         val tvFecha: TextView = view.findViewById(R.id.tvFechaEvento)
         val tvLugar: TextView = view.findViewById(R.id.tvLugarEvento)
-        val tvDescripcion: TextView = view.findViewById(R.id.tvDescripcionEvento)
+        val tvDesc: TextView = view.findViewById(R.id.tvDescripcionEvento)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventoViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_evento, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_evento, parent, false)
         return EventoViewHolder(view)
     }
 
@@ -28,7 +27,10 @@ class EventoAdapter(private var eventos: List<Evento>) :
         holder.tvTitulo.text = evento.titulo
         holder.tvFecha.text = evento.fechaDelEvento
         holder.tvLugar.text = evento.lugar
-        holder.tvDescripcion.text = evento.descripcion
+        holder.tvDesc.text = evento.descripcion
+        
+        // Ocultar descripción si está vacía para que la tarjeta sea compacta
+        holder.tvDesc.visibility = if (evento.descripcion.isEmpty()) View.GONE else View.VISIBLE
     }
 
     override fun getItemCount() = eventos.size

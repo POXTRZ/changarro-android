@@ -9,116 +9,96 @@ import com.example.actividadmenu.repository.ProductoRepository
 import com.example.actividadmenu.repository.TransaccionRepository
 import java.util.Locale
 
-/**
- * ViewModel para gestionar el Inventario Personal del vendedor.
- */
 class MisProductosViewModel : ViewModel() {
 
     private val productRepo = ProductoRepository()
     private val transaccionRepo = TransaccionRepository()
 
     private val _listaCompleta = mutableListOf<Producto>()
+
     private val _productosFiltrados = MutableLiveData<List<Producto>>()
     val productosFiltrados: LiveData<List<Producto>> get() = _productosFiltrados
+
+    private val _listaTransacciones = MutableLiveData<List<Transaccion>>()
+    val listaTransacciones: LiveData<List<Transaccion>> get() = _listaTransacciones
 
     private val _status = MutableLiveData<String?>()
     val status: LiveData<String?> get() = _status
 
-    private var textoBusqueda = ""
-
-    /**
-     * Carga los productos que pertenecen al usuario logueado en tiempo real.
-     */
     fun cargarMisProductos(userId: String) {
-        productRepo.obtenerMisProductos(
-            userId = userId,
-            onSuccess = { productos ->
-                _listaCompleta.clear()
-                _listaCompleta.addAll(productos)
-                aplicarFiltros()
-            },
-            onFailure = { _status.value = "Error al cargar inventario: ${it.message}" }
-        )
+        productRepo.obtenerMisProductos(userId, { lista ->
+            _listaCompleta.clear()
+            _listaCompleta.addAll(lista)
+            _productosFiltrados.value = lista
+        }, {
+            _status.value = "Error al cargar productos"
+        })
     }
 
     fun filtrarPorTexto(texto: String) {
-        textoBusqueda = texto
-        aplicarFiltros()
-    }
-
-    private fun aplicarFiltros() {
-        val query = textoBusqueda.lowercase(Locale.getDefault())
-        val filtrados = if (query.isEmpty()) {
-            _listaCompleta.toList()
+        val query = texto.lowercase(Locale.getDefault())
+        _productosFiltrados.value = if (query.isEmpty()) {
+            _listaCompleta
         } else {
-            _listaCompleta.filter { item ->
-                item.nombre.lowercase().contains(query) || 
-                item.descripcion.lowercase().contains(query)
-            }
+            _listaCompleta.filter { it.nombre.lowercase().contains(query) }
         }
-        _productosFiltrados.value = filtrados
     }
 
-    fun publicarNuevoProducto(producto: Producto) {
-        productRepo.agregarProducto(
-            producto = producto,
-            onSuccess = { _status.value = "Producto publicado con éxito" },
-            onFailure = { _status.value = "Error al publicar: ${it.message}" }
-        )
-    }
-
-    fun editarProducto(productoId: String, datos: Map<String, Any>) {
-        productRepo.actualizarProducto(
-            productoId = productoId,
-            datos = datos,
-            onSuccess = { _status.value = "Producto actualizado" },
-            onFailure = { _status.value = "Error al editar: ${it.message}" }
-        )
-    }
-
-    fun eliminarProducto(productoId: String) {
-        productRepo.eliminarProducto(
-            productoId = productoId,
-            onSuccess = { _status.value = "Producto eliminado" },
-            onFailure = { _status.value = "Error al eliminar: ${it.message}" }
-        )
-    }
-
-    /**
-     * Registra una transacción manual y actualiza el stock.
-     */
     fun registrarMovimiento(producto: Producto, tipo: String, cantidad: Int, userId: String) {
         val nuevoStock = if (tipo == "VENTA") producto.stock - cantidad else producto.stock + cantidad
         
         if (nuevoStock < 0) {
-            _status.value = "Stock insuficiente para la venta"
+            _status.value = "Stock insuficiente"
             return
         }
 
-        productRepo.actualizarStock(
-            productoId = producto.id,
-            nuevoStock = nuevoStock,
-            onSuccess = {
-                val transaccion = Transaccion(
-                    productoId = producto.id,
-                    nombreProducto = producto.nombre,
-                    tipo = tipo,
-                    cantidad = cantidad,
-                    montoTotal = cantidad * producto.precio,
-                    vendedorId = userId
-                )
-
-                transaccionRepo.registrarTransaccion(
-                    transaccion = transaccion,
-                    onSuccess = { _status.value = "Movimiento registrado" },
-                    onFailure = { _status.value = "Error al registrar transacción: ${it.message}" }
-                )
-            },
-            onFailure = { _status.value = "Error al actualizar stock: ${it.message}" }
-        )
+        productRepo.actualizarStock(producto.id, nuevoStock, {
+            val transaccion = Transaccion(
+                productoId = producto.id,
+                nombreProducto = producto.nombre,
+                tipo = tipo,
+                cantidad = cantidad,
+                montoTotal = if (tipo == "VENTA") producto.precio * cantidad else 0.0,
+                fecha = System.currentTimeMillis(),
+                vendedorId = userId
+            )
+            transaccionRepo.registrarTransaccion(transaccion, {
+                _status.value = "Movimiento registrado con éxito"
+            }, {
+                _status.value = "Error al registrar transacción"
+            })
+        }, {
+            _status.value = "Error al actualizar stock"
+        })
     }
 
-    fun statusMostrado() {
-        _status.value = null
+    fun publicarNuevoProducto(producto: Producto) {
+        productRepo.agregarProducto(producto, {
+            _status.value = "Producto publicado correctamente"
+        }, {
+            _status.value = "Error al publicar producto"
+        })
     }
+
+    fun editarProducto(productoId: String, datos: Map<String, Any>) {
+        productRepo.actualizarProducto(productoId, datos, {
+            _status.value = "Producto actualizado"
+        }, {
+            _status.value = "Error al actualizar"
+        })
+    }
+
+    fun cargarTransacciones(userId: String) {
+        transaccionRepo.obtenerMisTransaccionesRealtime(userId, { lista ->
+            _listaTransacciones.value = lista
+        }, { _status.value = "Error al cargar historial" })
+    }
+
+    fun eliminarProducto(productoId: String) {
+        productRepo.eliminarProducto(productoId, { _status.value = "Producto eliminado" }, {
+            _status.value = "Error al eliminar"
+        })
+    }
+
+    fun statusMostrado() { _status.value = null }
 }

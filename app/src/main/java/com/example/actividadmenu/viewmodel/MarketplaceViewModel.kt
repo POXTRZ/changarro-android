@@ -9,9 +9,6 @@ import com.example.actividadmenu.repository.ProductoRepository
 import com.example.actividadmenu.repository.TransaccionRepository
 import java.util.Locale
 
-/**
- * ViewModel para gestionar la lógica del Mercado General (Marketplace).
- */
 class MarketplaceViewModel : ViewModel() {
 
     private val productRepo = ProductoRepository()
@@ -20,15 +17,12 @@ class MarketplaceViewModel : ViewModel() {
 
     private val _listaCompleta = mutableListOf<Producto>()
     
-    // LiveData para los favoritos del usuario
     private val _favoritosIds = MutableLiveData<Set<String>>(emptySet())
     val favoritosIds: LiveData<Set<String>> get() = _favoritosIds
 
-    // LiveData que la UI observa para mostrar los productos (ya filtrados)
     private val _productosFiltrados = MutableLiveData<List<Producto>>()
     val productosFiltrados: LiveData<List<Producto>> get() = _productosFiltrados
 
-    // LiveData para manejar mensajes de estado o errores
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?> get() = _error
 
@@ -58,9 +52,6 @@ class MarketplaceViewModel : ViewModel() {
         )
     }
 
-    /**
-     * Carga todos los productos del mercado en tiempo real.
-     */
     fun cargarMercado() {
         productRepo.obtenerTodosLosProductosRealtime(
             onSuccess = { productos ->
@@ -95,9 +86,6 @@ class MarketplaceViewModel : ViewModel() {
         _productosFiltrados.value = filtrados
     }
 
-    /**
-     * Lógica de compra: Actualiza el stock y luego registra la transacción.
-     */
     fun procesarCompra(producto: Producto, compradorId: String, cantidad: Int = 1) {
         if (producto.stock < cantidad) {
             _error.value = "Stock insuficiente"
@@ -136,9 +124,6 @@ class MarketplaceViewModel : ViewModel() {
         )
     }
 
-    /**
-     * Publica un nuevo producto en el mercado global.
-     */
     fun publicarNuevoProducto(
         nombre: String,
         precio: Double,
@@ -149,7 +134,8 @@ class MarketplaceViewModel : ViewModel() {
         vendedorNombre: String,
         vendedorCarrera: String = "",
         vendedorSemestre: String = "",
-        vendedorWhatsapp: String = ""
+        vendedorWhatsapp: String = "",
+        imagenUrl: String = ""
     ) {
         val nuevoProducto = Producto(
             nombre = nombre,
@@ -161,7 +147,8 @@ class MarketplaceViewModel : ViewModel() {
             vendedorNombre = vendedorNombre,
             vendedorCarrera = vendedorCarrera,
             vendedorSemestre = vendedorSemestre,
-            vendedorWhatsapp = vendedorWhatsapp
+            vendedorWhatsapp = vendedorWhatsapp,
+            imagenUrl = imagenUrl
         )
 
         productRepo.agregarProducto(

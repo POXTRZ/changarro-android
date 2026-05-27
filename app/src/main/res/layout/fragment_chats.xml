@@ -19,25 +19,27 @@
             android:orientation="vertical"
             android:padding="24dp"
             android:paddingTop="60dp"
-            android:paddingBottom="24dp">
+            android:paddingBottom="40dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="MENSAJERÍA"
-                android:textColor="@color/text_secondary"
-                android:textSize="11sp"
+                android:textColor="@color/white"
+                android:alpha="0.6"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 android:letterSpacing="0.15" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tus Conversaciones"
+                android:text="Bandeja de Entrada"
                 android:textColor="@color/white"
-                android:textSize="28sp"
+                android:textSize="32sp"
                 android:textStyle="bold"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="4dp"
+                android:letterSpacing="-0.02" />
 
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -46,25 +48,49 @@
         android:id="@+id/rvChats"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingTop="20dp"
+        android:paddingBottom="100dp"
+        android:layout_marginTop="-24dp"
+        android:background="@drawable/search_bg"
+        android:backgroundTint="@color/background"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/item_chat" />
 
     <LinearLayout
         android:id="@+id/layoutEmptyChats"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical"
+        android:padding="40dp"
         android:visibility="gone">
+
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:src="@android:drawable/stat_notify_chat"
+            app:tint="@color/primary"
+            android:alpha="0.2" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No tienes chats activos"
-            android:textColor="@color/text_secondary"
-            android:textSize="16sp"
+            android:layout_marginTop="20dp"
+            android:text="Aún no hay mensajes"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Contacta a un vendedor o publica algo para empezar a chatear"
+            android:textColor="@color/text_hint"
+            android:textSize="14sp"
+            android:gravity="center" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -7,12 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import com.example.actividadmenu.databinding.ActivityMainBinding
 import com.example.actividadmenu.ui.profile.PerfilFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var bottomNavigation: BottomNavigationView
+    
+    private lateinit var binding: ActivityMainBinding
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,26 +28,25 @@ class MainActivity : AppCompatActivity() {
         }
 
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        bottomNavigation = findViewById(R.id.bottomNavigation)
-
         if (savedInstanceState == null) {
             cargarFragment(InicioFragment())
         }
 
-        bottomNavigation.setOnItemSelectedListener { item ->
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
             val fragment: Fragment = when (item.itemId) {
                 R.id.nav_muro -> InicioFragment()
                 R.id.nav_mercado -> CompraVentaFragment()
                 R.id.nav_calendario -> EventosFragment()
-                R.id.nav_chats -> ChatsFragment() // ¡Chat Nativo Activado!
+                R.id.nav_chats -> ChatsFragment()
                 R.id.nav_perfil -> PerfilFragment()
                 else -> InicioFragment()
             }
@@ -58,12 +58,7 @@ class MainActivity : AppCompatActivity() {
     private fun cargarFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
-            .setCustomAnimations(
-                android.R.anim.fade_in,
-                android.R.anim.fade_out,
-                android.R.anim.fade_in,
-                android.R.anim.fade_out
-            )
+            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
             .replace(R.id.contenedorFragments, fragment)
             .commit()
     }

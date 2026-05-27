@@ -6,9 +6,10 @@
     android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="6dp"
     app:cardBackgroundColor="@color/surface"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="2dp"
-    app:strokeWidth="0dp">
+    app:cardCornerRadius="24dp"
+    app:cardElevation="0dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="#10000000">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,20 +19,20 @@
         android:padding="16dp">
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:cardCornerRadius="25dp"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            app:cardCornerRadius="27dp"
             app:cardElevation="0dp"
-            app:cardBackgroundColor="@color/primary">
+            app:cardBackgroundColor="@color/primary_container">
             <TextView
                 android:id="@+id/tvChatAvatar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="U"
-                android:textColor="@color/white"
+                android:textColor="@color/primary"
                 android:textStyle="bold"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
         </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
@@ -47,28 +48,45 @@
                 android:layout_height="wrap_content"
                 android:text="Nombre de Usuario"
                 android:textColor="@color/text_primary"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:letterSpacing="-0.01" />
 
             <TextView
                 android:id="@+id/tvChatUltimoMensaje"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Último mensaje..."
+                android:text="Último mensaje de la charla..."
                 android:textColor="@color/text_secondary"
-                android:textSize="13sp"
+                android:textSize="14sp"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:layout_marginTop="2dp" />
+                android:layout_marginTop="2dp"
+                android:alpha="0.8" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvChatHora"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="12:00 PM"
-            android:textColor="@color/text_hint"
-            android:textSize="11sp" />
+            android:gravity="end"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvChatHora"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12:00 PM"
+                android:textColor="@color/text_hint"
+                android:textSize="11sp" />
+            
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="8dp"
+                android:src="@android:drawable/ic_media_play"
+                app:tint="@color/primary"
+                android:alpha="0.3" />
+        </LinearLayout>
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

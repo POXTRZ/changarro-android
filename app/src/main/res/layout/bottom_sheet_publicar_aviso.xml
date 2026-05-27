@@ -1,65 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/surface"
-    android:orientation="vertical"
-    android:paddingHorizontal="24dp"
-    android:paddingTop="12dp"
-    android:paddingBottom="32dp">
+    android:padding="24dp">
 
-    <!-- Handle visual Senior (Indicador de panel deslizable) -->
+    <!-- Handle visual Senior -->
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="36dp"
+        android:id="@+id/handle"
+        android:layout_width="40dp"
         android:layout_height="4dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="28dp"
         app:cardBackgroundColor="@color/divider"
         app:cardCornerRadius="2dp"
-        app:cardElevation="0dp" />
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="8dp"
-        android:orientation="horizontal">
-
+    <!-- Encabezado con Icono -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardIconHeader"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        app:cardBackgroundColor="@color/primary_container"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/handle">
         <ImageView
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:src="@android:drawable/ic_menu_edit"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@android:drawable/ic_dialog_info"
             app:tint="@color/primary" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:text="Nueva Publicación"
-            android:textColor="@color/text_primary"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:letterSpacing="-0.02" />
-    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="¿Qué quieres informar a la comunidad estudiantil?"
+        android:layout_marginStart="16dp"
+        android:text="Nuevo Aviso"
+        android:textColor="@color/text_primary"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/cardIconHeader"
+        app:layout_constraintStart_toEndOf="@+id/cardIconHeader"
+        app:layout_constraintTop_toTopOf="@+id/cardIconHeader" />
+
+    <TextView
+        android:id="@+id/tvSubtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:alpha="0.7"
+        android:text="Informa a la comunidad estudiantil sobre algo importante."
         android:textColor="@color/text_secondary"
         android:textSize="14sp"
-        android:layout_marginBottom="24dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardIconHeader" />
 
-    <!-- Contenedor del Input con diseño Senior -->
+    <!-- Caja de texto moderna -->
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
+        android:id="@+id/cardInputContainer"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         app:cardBackgroundColor="@color/background"
-        app:cardCornerRadius="24dp"
+        app:cardCornerRadius="20dp"
         app:cardElevation="0dp"
+        app:strokeColor="@color/divider"
         app:strokeWidth="1dp"
-        app:strokeColor="@color/divider">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSubtitle">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilContenidoAviso"
@@ -79,41 +96,46 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top"
-                android:hint="Escribe aquí tu aviso..."
+                android:hint="¿Qué quieres anunciar?"
                 android:inputType="textMultiLine|textCapSentences"
                 android:minLines="6"
                 android:padding="20dp"
                 android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_hint"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
     </com.google.android.material.card.MaterialCardView>
 
+    <!-- Botón de acción principal -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnPublicarAviso"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
         android:layout_marginTop="32dp"
-        android:text="Publicar en el Muro"
+        android:text="Compartir ahora"
         android:textAllCaps="false"
         android:textSize="17sp"
         android:textStyle="bold"
-        app:cornerRadius="20dp"
+        app:backgroundTint="@color/primary"
+        app:cornerRadius="18dp"
+        app:elevation="4dp"
         app:icon="@android:drawable/ic_menu_send"
         app:iconGravity="textStart"
         app:iconPadding="12dp"
-        app:backgroundTint="@color/primary"
-        app:elevation="8dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardInputContainer" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCancelarAviso"
         style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="match_parent"
-        android:layout_height="54dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Cancelar"
+        android:text="Quizás luego"
         android:textColor="@color/text_hint"
-        android:textAllCaps="false"
-        android:textSize="15sp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnPublicarAviso" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

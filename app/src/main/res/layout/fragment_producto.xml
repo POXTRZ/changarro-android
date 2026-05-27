@@ -23,19 +23,20 @@
                 android:background="@drawable/header_gradient"
                 android:orientation="vertical"
                 android:padding="24dp"
-                android:paddingTop="64dp"
-                android:paddingBottom="32dp">
+                android:paddingTop="60dp"
+                android:paddingBottom="40dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="MI INVENTARIO"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="11sp"
+                    android:text="GESTIÓN"
+                    android:textColor="@color/white"
+                    android:alpha="0.6"
+                    android:textSize="12sp"
                     android:textStyle="bold"
                     android:letterSpacing="0.15" />
 
-                <RelativeLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp">
@@ -43,44 +44,48 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Mis Productos"
+                        android:text="Mi Inventario"
                         android:textColor="@color/white"
-                        android:textSize="28sp"
-                        android:textStyle="bold" />
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="-0.02"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnAgregarProducto"
-                        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
+                        android:layout_height="48dp"
                         android:text="NUEVO"
-                        android:textColor="@color/white"
+                        android:textColor="@color/primary"
                         android:textStyle="bold"
-                        app:cornerRadius="16dp"
-                        app:backgroundTint="@color/primary" />
-                </RelativeLayout>
+                        app:backgroundTint="@color/white"
+                        app:cornerRadius="24dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <!-- Search Bar Glassmorphism -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    app:cardCornerRadius="16dp"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="28dp"
+                    app:cardCornerRadius="26dp"
                     app:cardElevation="0dp"
-                    app:cardBackgroundColor="@color/glass_dark"
+                    app:cardBackgroundColor="#20FFFFFF"
                     app:strokeWidth="1dp"
-                    app:strokeColor="#1AFFFFFF">
+                    app:strokeColor="#30FFFFFF">
 
                     <EditText
                         android:id="@+id/etSearch"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="match_parent"
                         android:background="@android:color/transparent"
                         android:hint="Buscar en mis ventas..."
-                        android:paddingHorizontal="16dp"
+                        android:paddingHorizontal="20dp"
                         android:textColor="@color/white"
-                        android:textColorHint="@color/text_secondary"
+                        android:textColorHint="#B0FFFFFF"
                         android:textSize="14sp"
                         android:maxLines="1"
                         android:inputType="text" />
@@ -95,35 +100,47 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingTop="12dp"
-        android:paddingBottom="80dp"
-        android:layout_marginTop="-20dp"
-        android:layoutAnimation="@anim/layout_animation_fall_down"
+        android:paddingTop="20dp"
+        android:paddingBottom="100dp"
+        android:layout_marginTop="-24dp"
+        android:background="@drawable/search_bg"
+        android:backgroundTint="@color/background"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <LinearLayout
         android:id="@+id/layoutEmpty"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical"
+        android:padding="40dp"
         android:visibility="gone">
+
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:src="@android:drawable/ic_menu_edit"
+            app:tint="@color/primary"
+            android:alpha="0.2" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No tienes publicaciones"
-            android:textColor="@color/text_secondary"
-            android:textSize="16sp"
+            android:layout_marginTop="20dp"
+            android:text="Inventario vacío"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Usa el botón de arriba para empezar"
+            android:layout_marginTop="8dp"
+            android:text="Toca 'NUEVO' para empezar a vender"
             android:textColor="@color/text_hint"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:gravity="center" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

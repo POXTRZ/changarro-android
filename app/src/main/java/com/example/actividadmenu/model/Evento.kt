@@ -8,7 +8,8 @@ data class Evento(
     val titulo: String = "",
     val descripcion: String = "",
     val lugar: String = "",
-    val fechaDelEvento: String = "", // Cambiado a String para coincidir con la firma del ViewModel
+    val fechaDelEvento: String = "",
+    val imagenUrl: String = "", // Nuevo campo para la imagen
     val timestamp: Long = System.currentTimeMillis(),
     val creadorId: String = ""
 )

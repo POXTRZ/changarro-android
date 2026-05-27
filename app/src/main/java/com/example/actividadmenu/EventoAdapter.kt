@@ -3,14 +3,17 @@ package com.example.actividadmenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.actividadmenu.model.Evento
 
 class EventoAdapter(private var eventos: List<Evento>) :
     RecyclerView.Adapter<EventoAdapter.EventoViewHolder>() {
 
     class EventoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val ivEvento: ImageView = view.findViewById(R.id.ivEvento)
         val tvTitulo: TextView = view.findViewById(R.id.tvTituloEvento)
         val tvFecha: TextView = view.findViewById(R.id.tvFechaEvento)
         val tvLugar: TextView = view.findViewById(R.id.tvLugarEvento)
@@ -29,7 +32,17 @@ class EventoAdapter(private var eventos: List<Evento>) :
         holder.tvLugar.text = evento.lugar
         holder.tvDesc.text = evento.descripcion
         
-        // Ocultar descripción si está vacía para que la tarjeta sea compacta
+        // Cargar imagen si existe
+        if (evento.imagenUrl.isNotEmpty()) {
+            holder.ivEvento.visibility = View.VISIBLE
+            Glide.with(holder.itemView.context)
+                .load(evento.imagenUrl)
+                .centerCrop()
+                .into(holder.ivEvento)
+        } else {
+            holder.ivEvento.visibility = View.GONE
+        }
+
         holder.tvDesc.visibility = if (evento.descripcion.isEmpty()) View.GONE else View.VISIBLE
     }
 
